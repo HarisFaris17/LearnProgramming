@@ -1,0 +1,1 @@
+//null pada dasarnya adalah ujung dari prototype chain, sehingga ia tidak memilik method yang dimiliki oleh Object.prototype
