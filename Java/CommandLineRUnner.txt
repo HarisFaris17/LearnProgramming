@@ -1,0 +1,60 @@
+CommandLineRunner adalah class yang memiliki memiliki 1 method dan method tersebut adalah abstract, sehingga commandLineRunner disebut 
+sebagai salah satu dari Functional Interface. sehingga kita bisa memasukkan lambda expression pada CommandLineRunner ini.
+CommandLineRunner commandLineRunner = () -> {};
+
+atau bisa juga dengan menggunakan syntax seperti ini
+CommandLineRunner commandLineRunner (ParkirRepository parkirRepository) {
+	return args -> {};
+}
+
+karena yang dikembalikan adalah objek dengan CommandLineRunner untuk syntax diatas dapat diambil logika bahwa karena 
+return ini mirip seperti = dalam syntaks biasa jadi seperti commandLineRunner = args -> {}
+hanya saja ini dalam bentuk fungsi.
+dan juga biasanya syntaks diatas terjadi ketika ada dalam bean. karena bean dijalankan diawal ketika program berjalan, berarti
+jika commandLineRunner dijadikan sebuah bean, berarti commandLineRunner ini akan dijalankan ketika program pertama kali dijalankan
+contoh
+@Bean
+CommandLineRunner commandLineRunner (ParkirRepository parkirRepository){
+	return args -> {parkirRepository.save(new Parkir()};
+}
+
+ketika program pertama kali dijalankan maka ApplicationContext (IoC) akan menginstantiate, eksekusi dan menyimpan return
+commandLineRunner menjadi bean, sehingga karena memang dari awal sudah dijalankan, 
+maka akan langsung menjalankan parkirRepository.save(new Parkir()), yang akan menyimpan data 
+Parkir kosong yang baru ke repository.
+
+sebenarnya kita bisa menggunakan banyak CommandLineRunner yaitu dengan menggunakan anotasi @Order
+
+@Configuration
+public class config1 {
+	@Bean
+	CommandLineRunner commandLineRunner1 (ParkirRepository parkirRepository){
+		return args -> {parkirRepository.save(new Parkir()};
+	}
+}
+
+@Configuration
+@Order(2)
+public class config2{
+	@Bean
+	CommandLineRunner commandLineRunner2 (ParkirRepository parkirRepository){
+		return args -> {parkirRepository.save(new Parkir()};
+	}
+}
+
+
+jika kita execute 2 bean diatas maka commandLineRunner1 akan lebih dulu dieksekusi
+CommandLineRunner bisa juga tidak hanya ada di config, class apapun yang merupakan bean juga bisa
+@SpringBootApplication
+public class Parkir extends CommandLineRunner{
+	public static void main(String args[]){
+
+	}
+	@Bean
+	@Override
+	run(String... args){
+		System.out.println("CommandLineRunner started")
+	}
+}
+
+karena spring akan menginspeksi tiap class apakah ada Bean, jika ada maka jalankan lalu simpan hasil returnnya di spring IoC

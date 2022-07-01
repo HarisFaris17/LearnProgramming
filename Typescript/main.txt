@@ -1,0 +1,23 @@
+pada let itu dia scopenya adalah block, sedangkan var dia scope nya adalah function. contoh
+function doSomething(){
+    for(var i=0;i<5;i++){
+        console.log(i);
+    }
+    console.log("finally"+i);
+}
+
+disini console.log("finally"+i) masih bisa dieksekusi padahal i ada di dalam for bukan di luarnya
+karena itu scope var adalah fungsi yang mengandung variabel tersebut, yaitu doSomething()
+
+tetapi jika dibuat seperti ini
+function doSomething(){
+    for(let i=0;i<5;i++){
+        console.log(i);
+    }
+    console.log("finally"+i);
+}
+
+maka typescript akan compile-error, 
+tetapi terkadang meskipun typescript compile error, tetapi masih bisa menghasilkan file js
+dan mengubah variabel let itu menjadi var (variabel dari javascript lawas), 
+sehingga accesable di luar for

@@ -1,0 +1,4 @@
+Haris = Manager
+Haris2 = Managerku2 = Ibu
+Suparmo = Ayah
+Lin = Ibu

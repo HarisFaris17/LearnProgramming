@@ -1,0 +1,55 @@
+kerennya dari typescript adalah bisa mendefinisikan tipe dari variabel, seperti java,C++,c#
+jika kita definisikan
+let i = 1;
+i = 'a';
+i= true;
+
+console.log(i);
+
+kalau awalnya didefisikan number (dengan memasukkan number pada deklarasi), maka sebaiknya 
+pada keseluruhan program juga dianggap sebagai number jika dipaksakan maka akan compile error, 
+tetapi masih generate file js-nya. dan mengubah let menjadi var dan jika dijalankan maka akan 
+menghasilkan true
+
+let j:number;
+j=1;
+j=2;
+console.log(j);
+j='a'
+console.log(j);
+
+kita bisa liat selain dengan menginisialisasi dengan number kita bisa mendeklarasikan variabel
+dengan typenya (contoh :number) dan jika kita secara tidak sengaja memasukkan string, maka compile
+error, namun tetap digenerate file js nya
+
+untuk tipe lain seperti array [] atau string atau boolean, bekerja selayaknya di bahasa perograman lain
+namun ada 1 tipe yang berbeda, yaitu any. any bisa salah satu dari string boolean atau number
+
+let a:number = 1;
+let b:string = "haris";
+let c:boolean = true;
+let d:number[] = [1,2,3];
+let e:any[] = [1,true,'lasdjkf']
+
+console.log(a)
+console.log(b)
+console.log(c)
+console.log(d)
+console.log(e)
+
+dan untuk array any bisa dimasukkan semua tipe
+
+untuk enum bekerja selayaknya enum pada c/c++. jika secara eksplisit tidak didefinisikan nilai
+dari enum Color maka yang paling kiri bernilai nol, dan terus menaik nilainya ke kanan
+enum Color {Red,Green,Blue}
+var color = Color.Red;
+console.log(color);
+
+jika code diatas dieksekusi maka akan menampilkan 0.
+tetapi jika
+enum Color {Red=3,Green,Blue}
+var color = Color.Red;
+console.log(color);
+
+karena variabel yang lebih ke kanan adalah +1 dari variabel sebelumnya maka Green adalah 4 dan Blue 5
+

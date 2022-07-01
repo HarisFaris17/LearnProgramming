@@ -1,0 +1,52 @@
+Interface adalah class yang tidak memiliki body dari tiap methodnya, hanya definisinya saja. tapi interface bisa memiliki static 
+dan default method. interface yang hanya memiliki 1 abstract method disebut functional interface. meskipun functional interface
+memiliki banyak method static dan default, tetap tidak mengubah identitasnya sebagai functional interface
+seperti Runnabale, List dsb.
+contoh 
+
+public class Interface implements InterfaceHaris{
+    String name = "haris";
+    public void hello(String nama){
+        System.out.println("Hello " + nama);
+    }
+    void namaSaya(){
+        System.out.println("nama saya "+name);
+    }
+
+    public static void main(String args[]){
+        InterfaceHaris saya = new Interface(); /* diperbolehkan karena Interface adalah class yang mengimplementasikan InterfaceHaris
+                                                    tetapi saya hanya bisa mengakses method yang dideklarasikan di InterfaceHaris saja*/
+        InterfaceHaris sayaLainnya = haha -> System.out.println(haha); /*Boleh karena InterfaceHaris adalah functional Interface
+                                                                        sehingga lambda expression akan langsung di map ke hello*/
+        InterfaceHaris sayaLainnyaLLagi = new InterfaceHaris() {
+            @Override
+            public void hello(String nama){
+                System.out.println("Hello" + nama +"Saya menggunakan anonymous class");
+            }
+        };
+        saya.hello("haris");
+        sayaLainnya.hello("haha");
+        sayaLainnyaLLagi.hello("sayang");
+        //@code saya.namaSaya(); 
+                                    /*tidka bisa karena saya adalah InterfaceHaris yang tidak memiliki definisi dan deklarasi dari
+                                    namaSaya(), meskipun saya di deklarasikan dengan reference Class Interface*/
+    }
+}
+
+interface InterfaceHaris {
+    public void hello(String name);
+}
+
+dan juga interface bisa mengextends interface lain, dan bisa banyak, sedangkan untuk class hanya bisa 1  yang diextends
+Interface haris {
+    String haha();
+}
+
+Interface saya{
+    String hehe();
+}
+
+Interface kami extends saya,haris{
+    String hoho();
+}
+disini bisa terlihat bahwa interface kami mengekstend saya dan haris.

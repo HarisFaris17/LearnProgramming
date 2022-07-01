@@ -1,0 +1,4 @@
+element yang ditambahkan pada index.html tidak akan langsung dirubah tampilannya oleh angular,
+tetapi tetap dicompile,
+namun jika ada suatu perubahan pada component nya seperti perubahan element html atau css, dsb
+maka akan langsung berubah tampilannya dan tentu saja tercompile

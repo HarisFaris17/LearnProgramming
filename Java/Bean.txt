@@ -1,0 +1,95 @@
+Bean adalah objek yang diintantiate, diconstruct, diassembly oleh spring Inversion of Control (IoC)
+Bean tidak ada yang spesial, selain yang disebutkan diatas.
+Lalu mengapa harus menggunakan Bean ?
+kita lihat contoh dibawah
+
+public class Person {
+    private Animal animal;
+    public Person(Animal){
+        this.animal = animal;
+    }
+
+    public static void main(String args[]){
+        Animal animal = new Animal(5,"Lion");
+        Person person = new Person(animal);
+    }
+}
+
+class Animal{
+    int age;
+    String name;
+    public Animal(int age, String name){
+        this.age = age;
+        this.name = name;
+    }
+}
+
+Bisa kita lihat pada contoh diatas bahwa pengintantiate dari person sebenarnya sah-sah saja dengan cara seperti itu. namun akan
+memusingkan jika kita memiliki banyak objek Person. dan yang perlu diingat juga adalah class Person dan class Animal sangat berkaitan
+sehingga jika class Animal berubah maka class Person juga akan berubah. oleh karena itu hadirlah Spring Bean.
+
+Jika digunakan sebagai berikut 
+
+@Configuration
+public class PersonConfig{
+    @Bean
+    public Animal animal(){
+        return new Animal(5,"Lion");
+    }
+}
+
+public class Person{
+   private Animal animal;
+   @Autowired
+   public Person(Animal animal){
+       this.animal = animal;
+   }
+}
+
+disini @Configuration equivalent dengan <beans> pada xml. pada method public Animal animal() ini akan mereturn objek animal
+dengan age 5 dan namanya "Lion". dan yang perlu diingat adalah setiap method yang didefinisikan adalah singleton, sehingga objek
+yang sama akan direturn oleh IoC setiap ada dependency yang membutuhkannya.
+disini ada @Autowired pada hakikatnya anotasi ini akan memasukkan dependency-nya(dalam kasus ini adalah animal yang ada di container
+IoC) ke variabel animal yang ada di Person, cara ini disebut juga dengan dependency injection. namun karena SpringBoot cukup pintar 
+sebenarnya kita tidak perlu lagi untuk mendefinisikan @Autowired pada Person jika memang hanya memiliki 1 constructor 
+
+Untuk nama bean dari method yang di-bean-kan maka sesuai dengan nama methodnya. dari contoh diatas maka nama beannya adalah animal.
+dan meskipun methodnya berhuruf awal besar, maka IoC akan otomatis mengecilkan huruf pertama dari method tersebut
+Bean dapat diaplikasikan pada berbagai tempat bisa di method atau pun class. tiap Bean pasti memiliki scope dan lifecycle.
+contoh scope dari Bean adalah singleton atau prototype. jika ia singleton maka method/objek yang diberi keterangan @Bean akan hanya ada
+1 yang instantiationnya dilakukan pertama kali program dijalankan. dan ketika ada dependency yang mengharapkan objek dari class yang
+dimaksud maka IoC akan memberikan objek yang instantiationnya di awal tersebut.
+namun jika ia @Bean nya adalah prototype maka setiap ada objek yang memerlukan dependency-nya maka IoC akan membuat objek yang dependency
+tersebut.
+
+Untuk mengakses IoC cukup dengan menggunakan ApplicationContext. ApplicationContext mirip dengan BeanFactory (class untuk IoC), hanya saja
+ApplicationContext lebih advance. berikut adalah contoh definisinya
+
+ApplicationContext context = new ApplicationContext()
+
+jika kita ingin mendapatkan objek bean secara manual ada berbagai cara sebenarnya, namun sintaksnya sama yaitu getBean.
+Object animal = context.getBean("animal");
+
+bisa kita lihat bahwa untuk mendapatkan bean dari IoC cukup dengan menggunakan nama bean-nya, tetapi
+sintaks diatas akan mendapatkan bean animal tanpa type nya. jika kita ingin mendapatkan bean beserta typenya adalah
+
+Animal animal = context.getBean(Animal.class,"animal") atau Animal animal = (Animal) context.getBean("animal")
+jika ingin mendapatkan bean dengan menggunakan class saja
+Animal animal = context.getBean(Animal.class)
+ini akan mengembalikan bean yang class nya adalah animal tetapi jika terdapat lebih dari 1 objek Animal class maka akan return
+exception, tetapi ada beberapa cara untuk mengatasi ini dengan menggunakan bean primary
+@Configuration
+public class MyConfig {
+    @Bean(primary=Primary.TRUE)
+    public Service myService() {
+        return new Service();
+    }
+
+    @Bean
+    public Service backupService() {
+        return new Service();
+    }
+}
+
+jika dieksekusi Animal animal = context.getBean(Animal.class), maka akan mengembalikan myService.
+jika ingin mengembalikan semua bean dengan type tertentu cukup menggunakan sintaks getBeansOfType(Service.class)

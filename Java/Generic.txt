@@ -1,0 +1,77 @@
+Generic digunakan agar tidak terjadi exception ketika run-time
+contoh
+dulu boleh mengetik seperti ini 
+
+
+List haris = new ArrayList();
+haris.add("integer");
+Integer ints = (Integer) haris.get(0);
+
+bisa terlihat bahwa syntax diatas tidak benar, karena kita tidak bisa meng-casting sembarang String ke Integer, sehingga akan
+menghasilkan run-time exception.
+oleh karena itu dibuatlah konsep Generic.
+syntax diatas diubah menjadi
+
+List<String> haris = new ArrayList<>();
+haris.add("Haris");
+Integer ints = (Integer) haris.get(0);
+
+ketika program diatas dicompile maka akan terjadi compile-time error. dan jika kita perhatikan diatas bahwa ArrayList menggunakan diamond
+operator. hal ini tidak apa apa karena java cukup pintar untuk melihat konteks suatu statement. Karena List<String> maka otomatis
+ArrayList<String>
+
+pada package java kita akan sering melihat wildcard type(?) atau unknown type (sebutan saya saja)/defined parameter seperti T,E,R 
+atau mungkin menggunakan suatu phrase seperti Key. 
+contoh pada 
+public class List<E> extends Collections<E>{
+    ...
+}
+disini kita bisa lihat E yang dimaksud disini adalah parameter yang digunakan nanti oleh user misalkan List<String>. nah karena
+didefinisikan pada List ada parameter String maka, Collections juga parameternya harus String karena sama sama E pada packagenya
+
+untuk wildcard type kita tidak bisa secara semena mena memasukkan suatu objek. biasanya wildcard type diikuti sama extends dan/atau
+super.
+Collections<?> c = new ArrayList<String>();
+c.add("haris");
+c.add(null);
+
+bisa dilihat diatas argument Collections adalah <?> yang artinya kita tidak tau apa typenya, meskipun pada ArrayList kita
+definisikan bahwa argumentnya adalah String. namun ini hanya berhubungan di pembangkitkan constructor pada ArrayList saja yang harus
+String objeknya. oleh karena itu meskipun kita memasukkan string ke c dengan c.add("haris"), maka compile-error. untuk c.add(null)
+berhasil, karena null ada anggota seluruh tipe
+
+Since we don’t know what the element type of c stands for, we cannot add objects to it. The add() method takes arguments of type E, 
+the element type of the Collection<E> generic interface. When the actual type argument is ?, it stands for some unknown type. 
+Any method argument value we pass to the add() method would have to be a subtype of this unknown type. Since we don't know what 
+type that is, we cannot pass anything in. The sole exception is null; which is a member of every type.To specify the upper 
+bound of a type wildcard, the extends keyword is used to indicate that the type argument is a subtype of the bounding class. 
+So List<? extends Number> means that the given list contains objects of some unknown type which extends the Number class. 
+For example, the list could be List<Float> or List<Number>. Reading an element from the list will return a Number. 
+Adding null elements is, again, also allowed.The use of wildcards above adds flexibility since there is not any inheritance
+ relationship between any two parameterized types with concrete type as type argument. Neither List<Number> nor List<Integer> 
+ is a subtype of the other; even though Integer is a subtype of Number. So, any method that takes List<Number> as a parameter
+ does not accept an argument of List<Integer>. If it did, it would be possible to insert a Number that is not an Integer into it; 
+ which violates type safety. Here is an example that demonstrates how type safety would be violated if List<Integer> were a 
+ subtype of List<Number>:
+
+List<Integer> ints = new ArrayList<Integer>();
+ints.add(2);
+List<Number> nums = ints;  // valid if List<Integer> were a subtype of List<Number> according to substitution rule. 
+nums.add(3.14);  
+Integer x = ints.get(1); // now 3.14 is assigned to an Integer variable!
+The solution with wildcards works because it disallows operations that would violate type safety:
+
+List<? extends Number> nums = ints;  // OK
+nums.add(3.14); // compile-time error
+nums.add(null); // allowed
+To specify the lower bounding class of a type wildcard, the super keyword is used. This keyword indicates that the type argument is a supertype of the bounding class. So, List<? super Number> could represent List<Number> or List<Object>. Reading from a list defined as List<? super Number> returns elements of type Object. Adding to such a list requires either elements of type Number, any subtype of Number or null (which is a member of every type).
+
+
+masalah dengan type erasure
+Meskipun didefinisikan parameter pada suatu class, tetapi parameter ini hanya berlaku pada saat compile saja, pada saat run-time
+kedua class yang sama akan dianggap sama meskipun parameternya berbeda
+List<String> haris = new ArrayList<>();
+List<Integer> ints = new ArrayList<>();
+if(haris.getClass == ints.getClass){
+    System.out.println("kedua class dianggap sama pada saat run-time");
+}

@@ -1,0 +1,40 @@
+Predicate digunakan untuk komparasi dari argumennya
+
+lambda expression dan anonymous class declaration memiliki kemiripan yakni sama sama mengimplementasikan suatu method dari interface
+
+anonymous class declaration adalah class yang tidak memiliki nama (dia hanya mengimplementasikan interface sehingga class yang didefinisikan tidak memiliki nama).
+anonymous class biasanya mengimplementasikan interface namun juga bisa meng-extend sebuah class. atau bisa meng-override sebuah method
+
+interface Haris {
+ void methodku(int);
+}
+
+public class Harisimplement{
+ public static void main(String args[]){
+    Haris haris = new Haris(){
+      @Override void methodku(int i){System.out.println(i);};
+    }
+ }
+
+lambda expression bisa digunakan untuk mendefinisikan suatu fungsi. terutama untuk meng-override suatu fungsi pada suatu interface.
+jika suatu interface hanya memiliki 1 abstrat method (method yang belum didefinisikan body-nya), maka lambda akan langsung di map ke abstract method tersebut.
+contohnya disini ada interface Runner dimana Runner hanya memiliki 1 method yaitu run(). biasanya runner digunakan untuk pendefinisian Thread. sekilas bisa terlihat bahwa lambda expressioon mirip dengan predicate.
+
+ingat bahwa jika lambda expression hanya 1 baris maka tidak perlu curly braces pada body-nya.
+
+contoh 
+public class runnerku{
+	public static void main(String args[]){
+  		Runnable runner = () -> System.out.println("Haris ganteng");
+		Thread newThread = new Thread(runner);
+		newThread.start();
+	}
+}
+
+karena Runnable bisa langsung di map oleh java, maka sebenarnya kita tidak perlu lagi untuk menghidupkan instance runner. cukup definisikan lambda expression pada new Thread()
+public class runnerku{
+	public static void main(String args[]){
+		Thread newThread = new Thread(() -> System.out.println("Haris ganteng"););
+		newThread.start();
+	}
+}
