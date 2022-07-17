@@ -1,4 +1,4 @@
-//class ada kasus spesial dari function
+//class adalah kasus spesial dari function
 //class tidak boleh memiliki lebih dari 1 constructor
 //class adalah spesial function, sehingga karena function memiliki prototype Function.prototype->Object.prototype->null
 class haris{
@@ -14,13 +14,26 @@ class haris{
 }
 
 var objectHaris = new haris(1,2);
-var objectHarisDefaultY = new haris(4)
+var objectHarisDefaultY = new haris(4);
+
+// Sebenarnya kita dapat mendefinisikan juga objek dengan funciton biasa
+function harisPakeFunction(x,y){
+    this.x=x;
+    this.y=y;
+    //bisa menggunakan arrow function 
+    this.methodku = ()=>console.log("this.x+this.y = "+(this.x+this.y));
+}
+
+let objectHarisPakeFunction = new harisPakeFunction(1,2);
+objectHarisPakeFunction.methodku();
+
 
 //class dapat memiliki field dan method
 //dalam class haris ada 1 method yaitu methodku sedangkan untuk field nya adalah x dan y
 console.log(objectHaris.y);
 objectHaris.methodku();
 console.log(objectHarisDefaultY.y);
+
 
 //class dapat memiliki static method, field maupun static initializier block, sehingga static method maupun field tidak bisa dipanggil
 //melalui instance class tersebut
@@ -101,4 +114,56 @@ console.log(objectDariClassPrivate.x)
 //prototype dari class adalah Function
 console.log(classPrivate.prototype.prototype);
 
+//objek yang juga dapat didefinisikan suatu method atau attribute baru dengan memasukkannya ke prototype
+//jika method atau attribute dimasukkan ke prototype, maka objek lain dari class yang sama tidak ada
+function classHehe(x=1,y=2){
+    this.x=x;
+    this.y=y;
+    
+};
 
+classHehe.prototype.methodBaru= ()=>{console.log("hahahaha")};
+
+let objekDenganMethodBaruDariPrototype = new classHehe();
+objekDenganMethodBaruDariPrototype.methodBaru();
+
+//class dalam javascript bisa private juga. Private bisa dengan menambahkan '_' atau '#' sebagai prefix attribute
+class cobaPrivate{
+    #private2=6;
+    _mmm=2;
+    constructor(){
+        //menggunakan private identifier '_' dengan this tidak akan error
+        this._private = 3;
+        //menggunakan this dengan private identifier '#' akan error
+        // this.#kkk=2
+    }
+    method(){
+        console.log(this._private);
+        console.log(this.#private2);
+    }
+}
+
+let cobaPrivateObjek = new cobaPrivate();
+cobaPrivateObjek.method();
+
+//class dalam javascript juga bisa untuk inheritance
+class parentClass{
+    constructor(x=10){
+        this.hehe=x;
+    }
+    aaa(){
+        console.log(this.hehe);
+    }
+}
+
+class childClass extends parentClass{
+    constructor(y=10){
+        super(y);
+        this._attributeChild=90;
+    }
+}
+
+let objekChildClass = new childClass(90);
+
+//child objek bisa mengakses method dari parent class.
+objekChildClass.aaa();

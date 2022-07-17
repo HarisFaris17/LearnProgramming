@@ -1,7 +1,7 @@
 //scope dari function adalah seluruh di global dan bisa didefinisikan di awal ataupun terakhir ataupun di tengah tengah code
 // untuk function expression scope nya adalah sisa kode semenjak function expression di deklarasikan
 //function dalam javascript cukup mirip dengan instance dalam java, bahkan function dalam javascript masuk kedalam kategori
-//pada dasarnya sebuah function adalah sebuah object. dan jika dibarengi dengan new maka function akan menjadi constructor
+//pada dasarnya sebuah function adalah sebuah object. dan jika dibarengi dengan new maka function akan menjadi "constructor"
 
 function haris(){
     return "hehe";
@@ -35,9 +35,13 @@ console.log(sayangConst());
 sayangConst = 10;
 console.log(sayangConst);*/
 
-//juga bisa menggunakan arraw tanpa return
+//juga bisa menggunakan arrow tanpa keyword return
 const sayangConstLain = () => "sayang const lain";
 console.log(sayangConstLain());
+
+// dalam arrow function juga bisa melibatkan parameter
+const multiply = (a,b) => a*b;
+console.log(multiply(2,2)); 
 
 var array = [1,2,3,4];
 //map adalah method yang argumentnya adalah sebuah fungsi, sehingga fungsi tersebut akan melakukan perintah tertentu pada tiap elemetnya
@@ -67,12 +71,15 @@ const factorial2 = function(i){return i===0||i===1 ? 1:i*factorial2(i-1)}
 console.log(factorial2(6))
 
 
+//closure
+//inner function bisa mengakses variabel yang didefinisikan di dalam outer function
+//alasan mengapa ada closure adalah memimik perilaku dari private method di dalam Java atau C++
 function a(){
-    x=1;
+    let x=1;
     function b(){
-        y=2;
+        let y=2;
         function c(){
-            z=3
+            let z=3
             console.log(x+y+z);
         }
         //mereturn function c, bukan cuma number, string, array saja yang bisa diangkut oleh sebuh variabel
@@ -82,7 +89,7 @@ function a(){
 }
 
 //ingat karena var, let, const bisa mengandung fungsi (bukan hanya hasil return fungsi), maka bisa dijadikan sebagai berikut
-//karena return dari a adalah b
+//karena return dari a adalah function b
 var coba = a();
 // maka disini b akan mereturn function c
 var cobac = coba();
@@ -142,7 +149,7 @@ function cobaArguments(separator){
     return x;
 }
 
-//bisa diliha disini meskipun argumentnya melebihi parameter yang ditentukan, tapi bisa bisa dieksekusi
+//bisa diliha disini meskipun argumentnya melebihi parameter yang ditentukan, tapi masih bisa dieksekusi
 console.log(cobaArguments(";","haris","sayang","nuke"));
 
 //jika default paramter tidak didefinisikan, maka secara default parameter tersebut bertipe undefined
