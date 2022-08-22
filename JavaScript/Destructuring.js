@@ -43,6 +43,13 @@ var nested =  {
 var {nestingProperty : { hahahnested}} = nested;
 console.log(hahahnested)
 
+//karena array adalah objek juga dengan propertynya adalah bilangan bulat positif sampai banyak elemen dari array, maka kita dapat object destructuring pada array
+
+const arrayku = [1,2,3,4,5,6];
+let {0:nomor1, 1:nomor2}=arrayku
+console.log(nomor1)
+console.log(nomor2)
+
 //destructing juga bisa digunakan untuk array
 //untuk mendapatkan element tertentu dari array yang ingin kita dapatkan nilainya, index dari nilai yang ingin didapatkan,
 //harus sesuai dengan index dari variabel container
@@ -84,14 +91,19 @@ const constDestructed = (function ({min,max}) {
 })(objectDestructing);
 console.log(constDestructed);
 
-//destructuring objek untuk meng-assign ke variabel yang sudah ada
-let firstName = "Haris"
-let lastName = "Prasetyo"
+//destructuring objek untuk meng-assign ke variabel yang sudah ada, dengan syarat variabel harus didefinisikan di bawah variabel yang ingin kita destructing
+//error karena firstname dan lastName didefinisikan dahulu sebelum fullname
+// let firstName = "Haris";
+// let lastName = "Prasetyo";
 
 let fullname={
     firstName : "Nuke",
     lastName : "Betharini"
 }
+//tidak error
+let firstName = "Haris";
+let lastName = "Prasetyo";
+
 
 ({firstName, lastName}=fullname);
 
@@ -99,3 +111,48 @@ console.log("firstname")
 console.log(firstName)
 console.log(lastName)
 
+// const profile = {
+//     firstName: "John",
+//     lastName: "Doe",
+//     age: 18
+// }
+ 
+// let firstName = "Dimas";
+// let age = 20;
+ 
+// // menginisialisasi nilai baru melalui destructuring object
+// ({firstName, age} = profile);
+ 
+// console.log(firstName);
+// console.log(age);
+ 
+
+
+
+// Jika suatu property tidak terdefinisi pada suatu objek, maka variabel yang berkorespondensi dengan key dari property tersebut menjadi undefined
+const tesUndefined={
+    hehe:'1'
+}
+
+const {hehe,variabelUndefined}=tesUndefined
+console.log(hehe);
+console.log(variabelUndefined);
+
+//kita dapat melakukan default value pada variabel dalam object destructuring
+
+const tesDefault={
+    coba:'1'
+}
+//karena property defaultVariabel tidak ada di dalam tesDefault, maka 10 akan dimasukkan ke dalam defaultVariabel
+const {coba,defaultVariabel=10}=tesDefault;
+console.log(defaultVariabel);
+
+// Kita dapat melakukan penukaran nilai variabel dengan mudah di dalam javascript dengan destructuring array
+//uniknya disini harus menggunakan ';' pada inisialisasi variabel n
+let m=1
+let n=2;
+
+[m,n]=[n,m]
+
+console.log(m)
+console.log(n)
