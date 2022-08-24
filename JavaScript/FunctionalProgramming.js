@@ -77,3 +77,30 @@ function createNewPersonWithLastNameChanged(lastName,person){
 
 let newPersonLastNameChanged = createNewPersonWithLastNameChanged("true",personTest);
 console.log(newPersonLastNameChanged)
+
+//rekursif adalah konsep dalam FP yang suatu fungsi dapat memanggil dirinya sendiri
+const eksponensial = (base,pangkat)=>{
+    if(pangkat==0) {return 1;}
+    return base*eksponensial(base,pangkat-1);
+}
+
+console.log(eksponensial(4,5));
+
+//higher-order function adalah fungsi yang argumennya adalah suatu fungsi. Dalam javascript terdapat konsep first-order function, artinya suatu fungsi bisa dijadikan sebagai argumen
+
+//fungsi map juga menggunakan higher-order function dan konsep rekursif
+const map=(array,fungsi)=>{
+    function loopingSampaiUjungArray(array,fungsi,newArray=[],index=0){
+        if (!array[index])  return newArray;
+        return loopingSampaiUjungArray(array,fungsi,[...newArray,fungsi(array[index])],index+1)
+    }
+    return loopingSampaiUjungArray(array,fungsi);
+}
+
+let arrayku=["haris","nuke"]
+function fungsiPengahasilTandaSeru(string){
+    return `${string}!!!`;
+}
+
+let arraySehabisDiMap = map(arrayku,fungsiPengahasilTandaSeru);
+console.log(arraySehabisDiMap);
