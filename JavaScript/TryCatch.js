@@ -80,3 +80,67 @@ catch(e){
     else if (e instanceof ReferenceError) console.log('Some code not declared');
     else console.log(e.message);
 }
+
+// we can make our own error class
+class PropertyError extends Error{
+    constructor(message){
+        super(message)
+        this.name='PropertyError'
+    }
+}
+
+try{
+    // We expect that property 'age' but Suppose that property 'age' doesn't exist
+    object2 = JSON.parse('{"name" : "Haris"}');
+    // object2.age will be null
+    if(object2.age==null){
+        throw new PropertyError('There is no object2.age')
+    }
+    if(object2.name==null){
+        throw new PropertyError('There is no object2.name')
+    }
+    // this will throw ReferenceError since variable errorCode is now declared
+    errorCode;
+    
+}
+catch(e){
+    if(e instanceof PropertyError) console.log(`JSON Parse error : ${e.message}`);
+    else if (e instanceof ReferenceError) console.log('Some code not declared');
+    else console.log(e.message);
+}
+
+// error handling
+
+class ValidationError extends Error{
+    constructor(message){
+      super(message);
+      this.name='ValidationError'
+    }
+  }
+
+const validateNumberInput = (num1,num2,num3)=>{
+    if(!(typeof(num1)==='number')) throw new ValidationError('Argumen pertama harus number')
+    if(!(typeof(num2)==='number')) throw new ValidationError('Argumen kedua harus number')
+    if(!(typeof(num3)==='number')) throw new ValidationError('Argumen ketiga harus number')
+  }
+
+  const detectTriangle = (a, b, c) => {
+    // TODO 3
+    try{
+        validateNumberInput(a,b,c)
+    }catch(e){
+        return e.message
+    }
+  
+    if (a === b && b === c) {
+      return 'Segitiga sama sisi';
+    }
+  
+    if (a === b || a === c || b === c) {
+      return 'Segitiga sama kaki';
+    }
+  
+    return 'Segitiga sembarang';
+  };
+
+  console.log(detectTriangle(1,2,3))
