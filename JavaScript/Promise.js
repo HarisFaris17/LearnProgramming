@@ -75,4 +75,3 @@ const orderTea = (state)=>{
 
 orderTea(state)
  
-export {state,checkIngredients,checkMachine,makeTea,readyThePlateAndCup,serveTea}
