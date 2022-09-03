@@ -10,11 +10,15 @@ import { average,determineGrade } from "../GradeTest.js";
 //     return test.expect(average([3,3,3,3])).toEqual(3);
 // })
 
-describe('Test',()=>{
+describe('Number testing',()=>{
     test('Average Test',()=>{
         expect(average([3,3,3,3])).toEqual(3);
     }),
     test('Grade Test',()=>{
         expect(determineGrade(average([3,3,3,3]))).toEqual('E')
     })
+})
+
+test('Wrong input testing',()=>{
+    expect(()=>average(['a',3,2,1])).toThrow(ReferenceError)
 })
