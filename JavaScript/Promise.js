@@ -4,7 +4,7 @@
 
 // back to Ordering a tea scenario
 // in this scenario setTimeout used to simulate the time it takes to do the function in real life. setTimeout will stop the asynchronous process for the time specified in the second argument.
-state = {
+let state = {
     ingredients : {tea : 180, water : 150},
     isTeaMachineReady : true
 }
@@ -75,3 +75,4 @@ const orderTea = (state)=>{
 
 orderTea(state)
  
+export {state,checkIngredients,checkMachine,makeTea,readyThePlateAndCup,serveTea}
