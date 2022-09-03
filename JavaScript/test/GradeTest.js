@@ -1,6 +1,6 @@
 const average = (values=[]) =>{
-    if (!Array.isArray(values)) return new TypeError('The argument of average should be array')
-    if (!values.every(value=> typeof value==='number')) return new ReferenceError('Elements of the array should be number')
+    if (!Array.isArray(values)) throw TypeError('The argument of average should be array')
+    if (!values.every(value=> (typeof value)==='number')) throw ReferenceError('Elements of the array should be number')
     let sum = values.reduce((accumulator, currentValue)=>{
         return accumulator+currentValue;
     })
@@ -8,7 +8,7 @@ const average = (values=[]) =>{
 }
 
 const determineGrade = (average) =>{
-    if(!(typeof average ==='number')) return new ReferenceError('Argument should be number')
+    if(!(typeof average ==='number')) throw ReferenceError('Argument should be number')
     if(average>=80&&average<=100) return 'A';
     else if(average<80&&average>=70) return 'B';
     else if(average<70&&average>=60) return 'C';
